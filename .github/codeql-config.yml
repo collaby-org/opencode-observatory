@@ -1,0 +1,7 @@
+# CodeQL config
+
+paths-ignore:
+  - "**/vendor/**"
+  - "**/node_modules/**"
+  - "**/design-system/**"
+  - "**/docs-html/**"

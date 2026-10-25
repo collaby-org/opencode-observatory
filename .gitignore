@@ -1,0 +1,53 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.log
+
+# Secrets / env — ignore all env files, keep examples
+.env
+.env.*
+!.env.example
+
+# Private config — never commit
+PRIVATE_CONFIG.md
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+coverage/
+.nyc_output/
+.next/
+out/
+.vercel
+
+# PHP / Laravel
+vendor/
+public/hot
+public/storage
+storage/*.key
+storage/installed
+.phpunit.result.cache
+bootstrap/cache/*.php
+
+# Build outputs
+dist/
+build/
+
+# Local backups
+*.bak
+*_probe.*
+
+# Git worktrees
+.worktrees/
+
+# Agent scratch
+zz_*.php
+zz_*.txt
+zz_*.bak
+*_probe.php
+*_probe_*.php
+*_ddl_probe.php

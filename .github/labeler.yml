@@ -1,0 +1,30 @@
+# Labeler rules.
+#
+# Adjust paths to match your repository structure.
+
+backend:
+  - changed-files:
+      - "backend/**"
+
+frontend:
+  - changed-files:
+      - "frontend/**"
+      - "docs/**"
+
+gateway:
+  - changed-files:
+      - "gateway/**"
+
+docs:
+  - changed-files:
+      - "docs/**"
+      - "*.md"
+      - "**/*.md"
+
+ci:
+  - changed-files:
+      - ".github/**"
+
+design-system:
+  - changed-files:
+      - "design-system/**"

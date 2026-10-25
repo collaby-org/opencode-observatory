@@ -1,0 +1,64 @@
+# Dependabot
+#
+# Actions are pinned by commit SHA in the workflows, so Dependabot bumps the
+# SHA and the trailing version comment together.
+version: 2
+updates:
+  # Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependencies"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  # Backend (adjust path to your backend)
+  - package-ecosystem: "composer"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      framework:
+        patterns: ["framework/*"]
+      runtime:
+        patterns: ["php", "symfony/*"]
+      minor-patch:
+        patterns: ["*"]
+
+  # Frontend (adjust path to your frontend)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      minor-patch:
+        patterns:
+          - "*"
+    # Major bumps rewrite the app — deliberate, tested migration only
+    ignore:
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+
+  # Gateway/Worker (adjust path to your gateway)
+  - package-ecosystem: "npm"
+    directory: "/gateway"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      minor-patch:
+        patterns:
+          - "*"

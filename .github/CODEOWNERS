@@ -1,0 +1,16 @@
+# CODEOWNERS — who reviews what.
+#
+# The single rule below covers every file: one owner, one review required.
+# `OWNER` is the repository owner and the only account with write
+# access, so it is the only handle that can actually be asked for a review.
+#
+# Replace it with a team or a second maintainer the moment one exists. A
+# CODEOWNERS file that names nobody valid silently asks nobody.
+* @OWNER
+#
+# Component mappings (uncomment and fill in when more than one owner exists):
+# /backend/ @maintainer
+# /frontend/ @maintainer
+# /gateway/ @maintainer
+# /docs/ @maintainer
+# /.github/ @maintainer

@@ -1,0 +1,167 @@
+# Consolidated CI — production track
+#
+# Replaces separate backend, frontend, gateway workflows.
+# Cost discipline: one workflow, multiple jobs, paths filters, concurrency.
+# Every step not verified-reliable is continue-on-error; blocking reserved for
+# checks that have actually been run green.
+
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - 'gateway/**'
+      - '.github/workflows/ci.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'backend'
+    timeout-minutes: 25
+    # Add services (database, cache) as needed for your backend
+    # services:
+    #   postgres:
+    #     image: postgres:16
+    #     env:
+    #       POSTGRES_PASSWORD: postgres
+    #       POSTGRES_DB: test
+    #     ports: [5432:5432]
+    #     options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Adjust setup for your backend language/framework
+      # - name: Set up PHP
+      #   uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+      #   with:
+      #     php-version: '8.3'
+      #     extensions: bcmath, curl, gd, pdo_mysql, zip, pcntl, posix
+      #     coverage: none
+      #     tools: composer:v2
+
+      # - name: Validate composer.json
+      #   run: composer validate --strict --no-check-publish
+
+      # - name: Install dependencies
+      #   run: composer install --no-interaction --prefer-dist --no-progress
+
+      # - name: Prepare environment
+      #   run: |
+      #     cp .env.example .env
+      #     php artisan key:generate --force --no-interaction
+
+      # - name: Syntax check
+      #   run: |
+      #     fail=0
+      #     while IFS= read -r f; do
+      #       php -l "$f" > /dev/null || { echo "SYNTAX ERROR: $f"; php -l "$f"; fail=1; }
+      #     done < <(find app routes database -name '*.php')
+      #     exit $fail
+
+      # - name: Boot smoke test
+      #   run: php artisan route:list --json > /dev/null
+
+      # - name: Tests
+      #   env:
+      #     DB_CONNECTION: pgsql
+      #     DB_HOST: 127.0.0.1
+      #     DB_PORT: '5432'
+      #     DB_DATABASE: test
+      #     DB_USERNAME: postgres
+      #     DB_PASSWORD: postgres
+      #   run: |
+      #     php artisan migrate --force --no-interaction
+      #     php vendor/bin/phpunit --no-coverage
+
+      - name: Placeholder — replace with your backend checks
+        run: echo "Configure backend job for your stack"
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: 'frontend'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: 'frontend/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      # Advisory checks — replace with your actual commands
+      - name: Lint (advisory)
+        continue-on-error: true
+        run: npm run lint
+
+      - name: Typecheck (advisory)
+        continue-on-error: true
+        run: npm run typecheck
+
+      # Blocking checks — enable after verified green locally
+      # - name: Unit tests
+      #   run: npm test
+
+      # - name: Build
+      #   run: npm run build
+
+      - name: Placeholder — replace with your frontend checks
+        run: echo "Configure frontend job for your stack"
+
+  gateway:
+    name: Gateway
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: 'gateway'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: 'gateway/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      # Advisory checks — replace with your actual commands
+      - name: Typecheck
+        continue-on-error: true
+        run: npm run typecheck
+
+      - name: Lint
+        continue-on-error: true
+        run: npm run lint
+
+      # Blocking checks — enable after verified green locally
+      # - name: Tests
+      #   run: npm test
+
+      - name: Placeholder — replace with your gateway checks
+        run: echo "Configure gateway job for your stack"

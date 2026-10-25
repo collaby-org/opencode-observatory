@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://github.com/OWNER/REPO/tree/main/docs
+    about: Start with the project docs (setup, tech stack, changelog).
+  - name: Security policy
+    url: https://github.com/OWNER/REPO/blob/main/.github/SECURITY.md
+    about: How to report vulnerabilities privately (do not file public issues).
+  - name: Discussions
+    url: https://github.com/OWNER/REPO/discussions
+    about: Ask questions and discuss ideas with maintainers and the community.
