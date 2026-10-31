@@ -1,0 +1,101 @@
+{
+  "lanes": [
+    {
+      "id": "research-repos",
+      "role": "read",
+      "paths": [
+        ".github",
+        "README.md",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "COMMANDS.md",
+        ".pr_agent.toml",
+        "opencode.json"
+      ],
+      "outputs": [
+        "repository, template and environment audit evidence"
+      ]
+    },
+    {
+      "id": "research-candidates",
+      "role": "read",
+      "paths": [
+        "external: dwrdx/opencode-session-inspector",
+        "external: Amanuel-Tesfaye-R/opencode-usage-tracking",
+        "external: Andres77872/opencode-dashboard",
+        "external: anomalyco/opencode",
+        "external: opencode.ai/v2 docs"
+      ],
+      "outputs": [
+        "open-source licence, architecture, schema, cost and security evaluations"
+      ]
+    },
+    {
+      "id": "research-source-db",
+      "role": "read",
+      "paths": [
+        "external: %USERPROFILE%/.local/share/opencode/opencode.db"
+      ],
+      "outputs": [
+        "read-only schema, row count, migration state and payload shape audit"
+      ]
+    },
+    {
+      "id": "traceability",
+      "role": "read",
+      "paths": [
+        "PRD.md",
+        "Master_Prompt.md"
+      ],
+      "outputs": [
+        "requirements traceability mapping with stable IDs"
+      ]
+    },
+    {
+      "id": "phase1-docs",
+      "role": "write",
+      "paths": [
+        "docs/phase-1-audit.md",
+        "docs/architecture-decision-record.md",
+        "docs/requirements-traceability.md"
+      ],
+      "outputs": [
+        "the three Phase 1 planning deliverables"
+      ]
+    },
+    {
+      "id": "repo-baseline",
+      "role": "write",
+      "paths": [
+        "README.md",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "LICENSE",
+        "docs/VERSION",
+        "docs/changelog.md",
+        "docs/roadmap.md",
+        "docs/targets.md",
+        "docs/tech_stack.md",
+        "docs/project-doc.md",
+        "docs/system_diagram.md",
+        ".agents/lanes.json"
+      ],
+      "outputs": [
+        "repository baseline, licence and living documentation"
+      ]
+    },
+    {
+      "id": "preserved-user-changes",
+      "role": "write",
+      "paths": [
+        "PRD.md",
+        "Master_Prompt.md",
+        "UI_UX_MASTER.md",
+        "UI_UX_PROMPTS.md"
+      ],
+      "outputs": [
+        "user supplied product contract and the removal of the obsolete UI template documents"
+      ]
+    }
+  ]
+}

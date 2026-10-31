@@ -1,155 +1,69 @@
-# PROJECT_NAME
+# OpenCode Observatory
 
-> A production-ready starter template for modern web applications.
+Local-first analytics and project-intelligence dashboard for
+[OpenCode](https://opencode.ai). It turns the complete local session history
+of OpenCode into a trustworthy dashboard: usage, tokens, cost provenance,
+agent activity, outcomes and project intelligence.
 
-## Overview
+> **Status: Phase 1 (audit and architecture decision).**
+> No dashboard feature has been built yet. The product is built in seven gated
+> phases and each phase needs explicit approval before the next one starts.
+> Read [`docs/phase-1-audit.md`](docs/phase-1-audit.md) for the current state.
 
-This template provides a complete foundation for building production web applications with:
+## What is in this repository right now
 
-- **Agent workflow** — Structured development process via `AGENTS.md`
-- **GitHub Actions CI/CD** — SHA-pinned workflows for CI, secret scanning, code review
-- **Automated reviews** — Kodus, PR-Agent, and opencode integration
-- **Design system** — Tailwind CSS + shadcn/ui + Lucide React ready
-- **Documentation standards** — Living docs, changelogs, versioning protocol
+| Path | Purpose |
+|---|---|
+| [`PRD.md`](PRD.md) | Product requirements. This is the contract the build follows. |
+| [`Master_Prompt.md`](Master_Prompt.md) | Orchestration contract: phases, gates, safety rules. |
+| [`docs/phase-1-audit.md`](docs/phase-1-audit.md) | Repository, open-source and local source-data audit. |
+| [`docs/architecture-decision-record.md`](docs/architecture-decision-record.md) | Accepted architecture decisions and rejected alternatives. |
+| [`docs/requirements-traceability.md`](docs/requirements-traceability.md) | Every PRD clause mapped to a stable ID, phase and verification method. |
+| [`docs/roadmap.md`](docs/roadmap.md) | Sequenced phases and their current status. |
+| [`docs/tech_stack.md`](docs/tech_stack.md) | Runtimes and tools actually present. |
+| [`docs/targets.md`](docs/targets.md) | Acceptance criteria and their status. |
+| [`docs/project-doc.md`](docs/project-doc.md) | Product decisions and the reasoning behind them. |
+| [`docs/system_diagram.md`](docs/system_diagram.md) | Intended component and data flow. |
+| [`docs/changelog.md`](docs/changelog.md) | Dated change log. |
 
-## Quick Start
+## Core promises
 
-### 1. Use this template
+1. **The OpenCode database is never modified.** Observatory reads it through a
+   read-only SQLite connection and writes everything derived into its own
+   dashboard database.
+2. **Every number has a provenance.** Actual billed spend, provider-reported
+   usage, OpenCode-recorded cost, API-equivalent estimates and unknown values
+   are separate ledgers and are never summed together.
+3. **Local first.** The product runs on the local Windows machine, needs no
+   cloud account, has no telemetry and uploads nothing by default.
+4. **AI is optional.** Intelligence features stay off until a model is
+   configured and the user asks for a summary.
 
-Click **"Use this template"** on GitHub, or clone and push to a new repository:
+## Requirements for the future local build
 
-```bash
-git clone https://github.com/YOUR_USERNAME/starter-kit.git my-new-project
-cd my-new-project
-# Remove template git history and start fresh
-rm -rf .git
-git init
-git add .
-git commit -m "feat: initial commit from starter-kit"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/my-new-project.git
-git push -u origin main
+Not installed by this repository yet. Phase 2 records the exact pinned
+versions in [`docs/tech_stack.md`](docs/tech_stack.md).
+
+- Windows 10 or newer
+- Node.js 24 LTS (the version verified during the Phase 1 audit)
+- npm 11 (the only package manager working on the audited machine)
+
+## Development workflow
+
+The repository carries the `collaby-org/starter-kit` agent workflow. Every
+change happens in its own worktree and branch, is reviewed locally, and lands
+through a pull request.
+
+```text
+/scope -> /architect -> /develop -> /test -> /check verify -> review -> PR
 ```
 
-### 2. Configure secrets
-
-Add the following secrets in **Settings → Secrets and variables → Actions**:
-
-| Secret | Required | Description |
-|--------|----------|-------------|
-| `LLM_API_KEY` | Yes | NVIDIA API key for LLM access |
-| `LLM_API_BASE` | Yes | `https://integrate.api.nvidia.com/v1` |
-| `KODUS_API_URL` | No | Kodus review API endpoint |
-| `KODUS_TEAM_KEY` | No | Kodus team authentication key |
-| `GITHUB_TOKEN` | Auto | Provided automatically by GitHub Actions |
-
-See `PRIVATE_CONFIG.md` for details (never committed).
-
-### 3. Customize for your project
-
-- Update `PROJECT_NAME` references in `UI_UX_MASTER.md` and `UI_UX_PROMPTS.md`
-- Adjust `dependabot.yml` directory paths to match your structure
-- Update `ci.yml` job configurations for your stack
-- Modify `CODEOWNERS` with your team handles
-- Replace `SECURITY-CONTACT-PLACEHOLDER` in `SECURITY.md`
-
-## Project Structure
-
-```
-├── .github/
-│   ├── workflows/       # CI/CD pipelines (SHA-pinned)
-│   ├── ISSUE_TEMPLATE/  # Issue forms
-│   ├── CODEOWNERS       # Review assignments
-│   ├── dependabot.yml   # Dependency updates
-│   └── SECURITY.md      # Security policy
-├── design-system/       # UI tokens, components, patterns
-├── docs/                # Living documentation
-│   ├── changelog.md
-│   ├── roadmap.md
-│   ├── tech_stack.md
-│   └── ui-ux/           # UI/UX migration artifacts
-├── AGENTS.md            # Global agent workflow (source of truth)
-├── CLAUDE.md            # Points to AGENTS.md
-├── CONTRIBUTING.md      # Contribution guidelines
-├── COMMANDS.md          # Agent command reference
-├── UI_UX_MASTER.md      # Master redesign specification
-├── UI_UX_PROMPTS.md     # Step-by-step orchestrator prompts
-├── opencode.json        # OpenCode configuration
-├── skills-lock.json     # Pinned agent skills
-└── PRIVATE_CONFIG.md    # Secrets reference (gitignored)
-```
-
-## Agent Workflow
-
-Every task follows four beats (see `AGENTS.md`):
-
-1. **Isolate** — Worktree from `origin/main`, never build on `main`
-2. **Build** — `/develop` with stack skills, `/architect` for undecided decisions
-3. **Prove** — Tests, `/check verify`, Kodus loop, commit, rebase, local code review
-4. **Ship** — PR with evidence, `/document`, `/unslop`, PR-Agent + Kodus to zero
-
-### Key Commands
-
-| Command | Purpose |
-|---------|---------|
-| `/scope` | Create living plan |
-| `/audit` | Bootstrap AGENTS.md (human-only) |
-| `/architect` | Write spec in `docs/specs/` |
-| `/new-feature` | Fresh worktree + branch |
-| `/develop` | Build from spec |
-| `/check verify` | Prove behavior against spec |
-| `/check review` | Senior code review (fresh model) |
-| `/document` | Draft PR/changelog from diff |
-| `/sync` | Reconcile docs with repo (human-only) |
-
-## GitHub Actions
-
-### Core Workflows
-
-| Workflow | Trigger | Purpose |
-|----------|---------|---------|
-| `ci.yml` | PR, push to main | Consolidated build, lint, test |
-| `secret-scan.yml` | PR, push, weekly | Gitleaks secret scanning |
-| `kodus-review.yml` | PR opened/sync | Kodus CLI review (advisory) |
-| `pr-agent.yml` | PR, `/review` comment | PR-Agent review (advisory) |
-
-### OpenCode Workflows
-
-| Workflow | Trigger | Purpose |
-|----------|---------|---------|
-| `opencode.yml` | `/oc` mention | Mention responder |
-| `opencode-review.yml` | PR opened/sync | Automatic PR review |
-| `opencode-scheduled.yml` | Weekly (Mon 09:23) | Repository health check |
-| `opencode-triage.yml` | Issue opened | Issue triage |
-
-All workflows are **credential-gated** — they skip (green, zero minutes) if
-required secrets are not configured.
-
-## Documentation Protocol
-
-- **Living docs**: `docs/changelog.md`, `system_diagram.md`, `targets.md`,
-  `roadmap.md`, `tech_stack.md`, `project-doc.md`
-- **Versioning**: One PR → one bump on the folder's version line
-  - Feature/architecture → minor
-  - Fix/docs/chore → patch
-  - Breaking → major
-- **Changelog**: Entry lands in same commit, in folder's changelog
-- **Stale docs are a bug** — update at end of every task
-
-## UI/UX Redesign Process
-
-If redesigning a frontend, follow the 7-step process in `UI_UX_MASTER.md`:
-
-1. **Read-only audit** — Map routes, components, CSS, journeys
-2. **Design system** — Define tokens, components, migration plan
-3. **Representative page** — Prove system on one page
-4. **Shared foundation** — Migrate shell and common components
-5. **Core product areas** — Migrate dense data interfaces
-6. **Journeys & polish** — Onboarding, discovery, motion
-7. **Legacy retirement** — Remove old CSS, final QA
-
-Each step requires explicit approval before proceeding.
+See [`AGENTS.md`](AGENTS.md) for the full workflow and
+[`COMMANDS.md`](COMMANDS.md) for the command index.
 
 ## License
 
-MIT — Use freely for any project.
+MIT. See [`LICENSE`](LICENSE). The copyright holder line is still to be
+confirmed by the repository owner. Third-party attribution obligations will be
+recorded here if any external code is reused; the Phase 1 audit currently
+recommends a clean-room implementation with no copied candidate code.
