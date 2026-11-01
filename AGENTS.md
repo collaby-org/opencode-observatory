@@ -8,12 +8,14 @@ file carries the rules and the pointers.
 
 1. **Isolate — `new-feature`.** Established projects only: every feature
    starts in a worktree branched from `origin/main`, on the same drive as the
-   repository — never on the system drive unless the repository itself lives
-   there, and never inside the repository's own location. Never build on
-   `main`. New builds and migrations start at `/scope` first (new build →
-   `/scope` then `/new-feature`; migration → `/scope` then the plan). When
-   project context is missing or stale, `/audit` runs first — HUMAN-ONLY:
-   never invoke it without explicit authorization in that same task.
+   repository (`D:\Work\worktrees\<repo>\<branch>` for a repository on `D:`) —
+   never on the system drive (C:) unless the repository itself lives there,
+   and never inside the repository's own location. Never build on
+   `main`. New builds and
+   migrations start at `/scope` first (new build → `/scope` then
+   `/new-feature`; migration → `/scope` then the plan). When project context
+   is missing or stale, `/audit` runs first — HUMAN-ONLY: never invoke it
+   without explicit authorization in that same task.
 2. **Build — `/develop` + stack skills.** Load the stack skills and
    `code-structure`; check existing code and the shadcn registry before new
    UI. A load-bearing decision that is unmade → `/architect` writes the spec
@@ -29,14 +31,14 @@ file carries the rules and the pointers.
    review — the gate rejects a stale HEAD.
 4. **Ship.** Push the branch to the remote and open a pull request: a pull
    request that only exists on this machine is not done. Every change lands
-   through a new PR — never a direct commit or push to `main`. Fill the PR
-   with evidence and `version: before → after`, sync the review comment,
-   update the living docs and the changelog of the folder worked in (the
-   same-commit rule is in Docs and versions), then `/document` and `/unslop`.
-   `/check review` is an optional single quick read; it never replaces
-   `/code-review`. The bar for the review comments is in the PR-Agent preset.
-   Merging is the human's decision: never merge unless told. Keep the worktree
-   until merge, delete it after.
+   through a new PR — never a direct commit or push to `main`. Fill the PR with
+   evidence and `version: before → after`, sync the review comment, update the
+   living docs and the changelog of the folder worked in (the same-commit rule
+   is in Docs and versions), then `/document` and `/unslop`. `/check review` is
+   an optional single quick read; it never replaces `/code-review`. The bar
+   for the review comments is in the PR-Agent preset. Merging is
+   the human's decision: never merge unless told. Keep the worktree until
+   merge, delete it after.
    `/sync` is HUMAN-ONLY: never invoke it without explicit authorization in
    that same task, never auto-chained.
 
@@ -63,8 +65,8 @@ leave a diverged `AGENTS.md` behind. AI never edits it without consent.
 
 Resolve the docs home once, before the work starts, and use it for the whole
 change: the repository's `docs/`, the app's `<app>/docs/`, the linked
-documentation repository or vault, or `.workflow/` when `docs/` is a
-published site.
+documentation repository or vault (`Obsidian-Documentation*`,
+`Documentation/`, `.docs/`), or `.workflow/` when `docs/` is a published site.
 
 Versions: every app or workstream that ships on its own (frontend, API,
 mobile, worker) has its own version line, in its own manifest or
@@ -75,8 +77,8 @@ patch on that same line. The bump and the changelog entry land in the same
 commit as the change.
 
 Changelog: the entry goes to the changelog of the folder that was worked in —
-`docs/changelog.md` for repo-level work, `<app>/docs/changelog.md` for one
-app in a monorepo, and the resolved docs home when it lives outside the
+`docs/changelog.md` for repo-level work, `<app>/docs/changelog.md` for one app
+in a monorepo, and the resolved docs home when it lives outside the
 repository. Not one global file for everything. If the resolved docs home is
 outside the repository, the change updates it as well, in the same PR or in a
 linked PR against that documentation repository; the repository copy stays the
@@ -103,12 +105,12 @@ never apply latest idioms to legacy code (adapt down or ask).
 
 ## Diagrams and mind maps (always)
 
-A diagram or a mind map is a file in the repository, not a chat answer. Use
-the `diagram-design` skill for a diagram and the `mindmap` skill for a
-concept map: a Markmap `.md` file in the project's resolved docs home
-(`docs/mindmaps/<topic>.mindmap.md`), and the interactive React `.jsx` only
-when the user asks for it. Produce one when the structure is the point — a
-new subsystem, a plan, a research summary, a handover — and link it from the
+A diagram or a mind map is a file in the repository, not a chat answer. Use the
+`diagram-design` skill for a diagram and the `mindmap` skill for a concept map:
+a Markmap `.md` file in the project's resolved docs home
+(`docs/mindmaps/<topic>.mindmap.md`), and the interactive React `.jsx` only when
+the user asks for it. Produce one when the structure is the point — a new
+subsystem, a plan, a research summary, a handover — and link it from the
 document it explains. Never answer a "map this out" request with prose.
 
 ## UI rules (always)
@@ -137,9 +139,9 @@ tree and the boundary rules. Stale system docs are a bug.
 
 One worktree and one branch per task/agent. Never touch another agent's
 worktree, branch or uncommitted work. Scope check first (`gh pr list`, `gh pr
-diff <n> --name-only`). Never plain `--force`; `--force-with-lease` on your
-own branch only. Regenerate lockfiles, never hand-merge. Worktrees do not
-isolate ports or databases — confirm the port answers your process; no schema
+diff <n> --name-only`). Never plain `--force`; `--force-with-lease` on your own
+branch only. Regenerate lockfiles, never hand-merge. Worktrees do not isolate
+ports or databases — confirm the port answers your process; no schema
 experiments on shared DBs. Memory (`opencode-mem`) captures durable facts;
 costs roll into `opencode-telemetry`. Unresolved conflict: stop and report.
 
@@ -148,16 +150,15 @@ costs roll into `opencode-telemetry`. Unresolved conflict: stop and report.
 Lean sequential by default: most coding work has fewer independent units than
 research, and a multi-agent run costs far more. When the change genuinely
 partitions, cut it into work units, give every writer one path set, one
-worktree and one owner — a shared type, a schema, a generated file, a
-lockfile or a migration gets a single owner who lands it first — and let
-read-only lanes overlap freely. Write the scope manifest and check it before
-dispatching and the result against it afterwards:
-`node ~/.config/opencode/tools/agents-scope.mjs --write .agents/lanes.json`,
-`--check .agents/lanes.json`, `--verify .agents/lanes.json --changed
-<file>,<file>`. The tool is installed globally; inside the blueprint
-repository the same file is `bin/agents-scope.mjs`. If it is missing, say so
-and continue without the check. The full contract lives in the orchestrator
-agent.
+worktree and one owner — a shared type, a schema, a generated file, a lockfile
+or a migration gets a single owner who lands it first — and let read-only
+lanes overlap freely. Write the scope manifest and check it before dispatching
+and the result against it afterwards: `node ~/.config/opencode/tools/agents-scope.mjs
+--write .agents/lanes.json`, `--check .agents/lanes.json`,
+`--verify .agents/lanes.json --changed <file>,<file>`. The
+tool is installed globally; inside the blueprint repository the same file is
+`bin/agents-scope.mjs`. If it is missing, say so and continue without the
+check. The full contract lives in the orchestrator agent.
 
 ## Reverse engineering (always)
 
@@ -171,14 +172,14 @@ REA MCP writes there too. Full convention: `docs/conventions.md`.
 
 Keep the system drive above ~15 GB free; ten sessions may be running at once,
 so a cleanup must never break one. `node ~/.config/opencode/tools/clean.mjs`
-reports safe deletions; `--apply` removes package-manager caches, old
-opencode logs and aged temp directories. It never deletes
-`~/.cache/opencode` (the installed plugin tree — removing it is what made
-plugin-provided agents disappear and produced `Agent not found:
-"orchestrator"`), never a worktree's `node_modules`, and never anything a
-live session may be reading. One dependency tree per plugin. Delete a
-worktree only after its branch is merged and no session uses it; say so in
-the report. Inside the blueprint repository the same tool is `bin/clean.mjs`.
+reports safe deletions; `--apply` removes package-manager caches, old opencode
+logs and aged temp directories. It never deletes `~/.cache/opencode` (the
+installed plugin tree — removing it is what made plugin-provided agents
+disappear and produced `Agent not found: "orchestrator"`), never a worktree's
+`node_modules`, and never anything a live session may be reading. One
+dependency tree per plugin. Delete a worktree only after its branch is merged
+and no session uses it; say so in the report. Inside the blueprint repository
+the same tool is `bin/clean.mjs`.
 
 ## Local code review gate (always)
 
@@ -189,17 +190,17 @@ The `opencode-code-review` plugin blocks `gh pr create` until a complete
 review of the current HEAD returns `approve` or `approve-with-nits`. Three
 deliberate escapes, nothing else: draft PR, `enforce_pr_gate: false` in
 `.opencode/review.json`, and `CODE_REVIEW_SKIP=1 gh pr create ...` for one
-command. The reviewer never edits code; findings go to the implementer. Sync
-the result with
-`node ~/.agents/skills/code-review/scripts/post-review.mjs --apply` (one
-sticky comment). GitHub Kodus and PR-Agent remain the last resort, never a
+command. The reviewer never edits code; findings go to the implementer.
+Sync the result with
+`node ~/.agents/skills/code-review/scripts/post-review.mjs --apply` (one sticky
+comment). GitHub Kodus and PR-Agent remain the last resort, never a
 substitute.
 
 ## Kodus loop (always)
 
 Before commit, load `kodus-review` and run its loop on the staged diff:
-review → analyse → fix valid → tests → rerun until `--fail-on error` exits
-0. CLI missing → say so, never fake it. Full protocol in the skill.
+review → analyse → fix valid → tests → rerun until `--fail-on error` exits 0.
+CLI missing → say so, never fake it. Full protocol in the skill.
 
 ## PR-Agent preset (always)
 
