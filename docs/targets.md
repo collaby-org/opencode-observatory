@@ -31,7 +31,7 @@ Status markers: `done`, `open`, `blocked`.
 - [ ] open — The OpenCode database is never written, migrated, vacuumed or altered
 - [ ] open — The local server binds loopback by default and rejects foreign Host headers
 - [ ] open — Nothing is uploaded and no telemetry is sent by default
-- [ ] open — Actual, provider-reported, recorded, estimated and unknown cost values are never merged
+- [ ] open — Actual, provider-reported, recorded, estimated, free/included counterfactual and unknown cost values are never merged
 - [ ] open — Missing usage is reported as unavailable, never as zero
 - [ ] open — AI processing stays off until a model is configured and the user asks for it
 - [ ] open — No transcript content is ever executed as a command

@@ -398,6 +398,47 @@ unknown, not as proof that fork behaviour is absent.
 - `session_v2.cost` and `tokens_input` were populated on all initial 1,250
   sessions.
 - 1,218 sessions had model JSON, representing 45 distinct model values.
+- A later snapshot resolved those payloads into 6 providers, 30 provider/model
+  pairs and 24 distinct model ids across 1,256 sessions with a model payload.
+  The raw payload strings carry provider-specific variants, so the raw count
+  above is higher than the pair count. Only provider and model identities were
+  extracted; no transcript, title or path data is involved.
+
+  | Provider | Model id | Sessions |
+  |---|---|---:|
+  | `opencode` | `beam-free` | 799 |
+  | `opencode` | `deepseek-v4.1-flash-free` | 100 |
+  | `nvidia` | `stepfun-ai/step-5-preview` | 99 |
+  | `opencode` | `glm-5.3-flash-free` | 70 |
+  | `nvidia` | `minimaxai/minimax-m3.1-flash` | 43 |
+  | `opencode` | `mimo-v2.6-flash-free` | 30 |
+  | `tokenharbor` | `mimo-v2.5:free` | 22 |
+  | `openrouter` | `minimax/minimax-m3.1-flash:free` | 14 |
+  | `nvidia` | `z-ai/glm-5.3-flash` | 12 |
+  | `nvidia` | `deepseek-ai/deepseek-v4.1-flash` | 11 |
+  | `opencode` | `nemotron-3.5-super-vl-free` | 8 |
+  | `openrouter` | `openrouter/free` | 8 |
+  | `tokenharbor` | `deepseek-v4.1-flash:free` | 5 |
+  | `nvidia` | `nvidia/nemotron-3.5-super-vl-120b-a12b` | 4 |
+  | `openai` | `beam-free` | 4 |
+  | `opencode` | `big-pickle` | 4 |
+  | `openai` | `deepseek-v4.1-flash-free` | 3 |
+  | `openai` | `mimo-v2.6-flash-free` | 3 |
+  | `opencode` | `nemotron-3.5-lightning-free` | 3 |
+  | `nvidia` | `nvidia/nemotron-3-ultra-550b-a55b` | 2 |
+  | `opencode` | `flint-40b-free` | 2 |
+  | `openai` | `glm-5.3-flash-free` | 2 |
+  | `oc-zen` | `beam-free` | 1 |
+  | `oc-zen` | `minimax-m3.1-flash-free` | 1 |
+  | `opencode` | `claude-opus-5-5` | 1 |
+  | `opencode` | `claude-sonnet-5-5` | 1 |
+  | `opencode` | `gpt-6-luna` | 1 |
+  | `opencode` | `muse-spark-1.3` | 1 |
+  | `tokenharbor` | `muse-spark-1.3` | 1 |
+  | `tokenharbor` | `deepseek-v4-flash:free` | 1 |
+
+  Session counts drift with the live source; the identities and the mapping are
+  the durable finding, and Phase 2 re-discovers them at runtime.
 - In the 5,000-row assistant sample captured during the Phase 1 audit, 4,933
   rows had a cost and token object and 59 carried an error.
 - V2 assistant payload keys include `agent`, `content`, `cost`, `error`,
@@ -476,7 +517,7 @@ All seven Phase 1 questions in `PRD.md` section 14 now have safe defaults.
 | Question | Resolution |
 |---|---|
 | Exact OpenCode version and schema | OpenCode 2.2.4; 30 tables; V2 plus completed legacy snapshot |
-| Providers, models and billing evidence | 45 distinct model values; no authoritative invoice or billing source found locally |
+| Providers, models and billing evidence | 6 providers, 30 provider/model pairs and 24 distinct model ids identified in section 6; no authoritative invoice or billing source found locally |
 | Current or historical pricing default | Current rates by default, with a selectable historical view that never overwrites the original calculation |
 | Comparable hosted model for local models | Not applicable/unknown until the user explicitly chooses a hosted model and rate card |
 | AI default | Disabled until a local or remote model is configured and the user requests processing |
@@ -647,6 +688,8 @@ The exact command set is listed in section 2. The most important results were:
 - Node 24 and npm work, while Go is absent and pnpm and Yarn are broken.
 - The effective OpenCode version is 2.2.4, not the stale 1.14.22 binary.
 - The source is a 2.33 GB WAL database with V2 and a completed legacy snapshot.
+- The audited model payloads resolve to 6 providers, 30 provider/model pairs and
+  24 distinct model ids, listed in section 6; no local billing source exists.
 - 140 sessions overlap across layouts, eight are legacy-only, and parent links
   dominate the relationship graph.
 - Error records exist without usage and must remain unavailable, not zero.

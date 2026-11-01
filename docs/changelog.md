@@ -24,6 +24,14 @@ lives in [`VERSION`](VERSION).
   the required `@AGENTS.md` pointer, so the repository standards check passes.
 - Removed the starter-kit `UI_UX_MASTER.md` and `UI_UX_PROMPTS.md`, which described a
   generic redesign workflow rather than this product.
+- Phase 1 deliverables corrected after the mandatory local review: the roadmap now
+  names the Phase 2 minimal diagnostics shell and the Phase 6 incremental monitoring
+  of new sessions, the provider and model open question records every identified
+  provider, model id and provider/model pair from the read-only aggregate audit, the
+  system diagram attaches the GET allowlist to the OpenCode HTTP API instead of the
+  local API layer, ADR-010 no longer claims an unperformed shadcn/ui compatibility
+  check, and the product promise keeps the free/included counterfactual separate
+  from the other cost values.
 
 ### Notes
 

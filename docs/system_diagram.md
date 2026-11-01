@@ -26,6 +26,7 @@ Everything below is planned and not implemented yet.
 flowchart TB
   subgraph Local["Developer PC, local only"]
     OpenCode["OpenCode<br/>writes its own database"]
+    OpenCodeAPI["OpenCode HTTP API<br/>installed local service<br/>optional supplement only"]
     Source[("OpenCode source DB<br/>legacy + V2 layouts<br/>READ ONLY")]
 
     subgraph Collector["Ingestion layer"]
@@ -39,7 +40,7 @@ flowchart TB
     end
 
     subgraph App["Local application"]
-      API["Local API layer<br/>loopback only, GET allowlist,<br/>Host and Origin checks"]
+      API["Local API layer<br/>loopback only,<br/>Host and Origin checks,<br/>no general API proxy"]
       Analytics["Analytics + cost ledgers<br/>six separate ledgers,<br/>versioned pricing catalogue"]
       UI["Next.js interface<br/>overview, explorer, timeline,<br/>models and costs, intelligence"]
       Intelligence["Optional intelligence<br/>adapters, opt-in, budgets,<br/>redaction, typed output"]
@@ -54,6 +55,7 @@ flowchart TB
   Discovery --> Adapters
   Worker --> Adapters
   Worker -->|writes derived data only| Observatory
+  Adapters -.->|optional supplement,<br/>explicit GET allowlist only| OpenCodeAPI
   Analytics --> Observatory
   API --> Analytics
   UI -->|server side only| API
@@ -67,6 +69,8 @@ flowchart TB
   written.
 - The OpenCode HTTP API is used only through an explicit GET allowlist, never
   proxied.
+- The local API layer binds loopback, validates Host headers and applies Origin
+  checks to its state-changing routes; it is not limited to GET.
 - The dashboard database can be deleted and rebuilt without touching the
   source.
 - The local server binds loopback by default and rejects foreign Host headers.

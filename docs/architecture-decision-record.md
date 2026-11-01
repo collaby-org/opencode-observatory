@@ -582,8 +582,8 @@ typed domain code, a premium dark interface and charts backed by real data.
 Use Next.js App Router, strict TypeScript, Tailwind CSS v4, shadcn/ui where
 compatible, Lucide icons and Recharts. Validate data at external boundaries,
 keep domain and data logic outside React components, and build a reusable
-component layer with explicit design tokens. shadcn/ui compatibility is
-confirmed in the initial shell but must not block the data foundation.
+component layer with explicit design tokens. shadcn/ui compatibility is to be
+confirmed during the Phase 3 shell and must not block the data foundation.
 
 ### Rationale
 

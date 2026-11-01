@@ -78,6 +78,7 @@
         "docs/tech_stack.md",
         "docs/project-doc.md",
         "docs/system_diagram.md",
+        "docs/reviews",
         ".agents/lanes.json"
       ],
       "outputs": [

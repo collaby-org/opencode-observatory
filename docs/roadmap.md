@@ -33,6 +33,9 @@ starts.
 - [ ] Build synthetic legacy-only, V2-only, migrated-overlap, parent/child, fork,
   missing-usage, partial-token and interrupted-sync fixtures and prove the
   source database is untouched before and after a sync
+- [ ] Ship a minimal local diagnostics shell over the real source: detected
+  source path and layout, import progress and row counts, warnings, and
+  unavailable-usage counts
 
 ## Phase 3 — Core analytics
 
@@ -57,6 +60,8 @@ starts.
 
 ## Phase 6 — Reliability and operations
 
+- [ ] Incremental monitoring of new sessions through a low-overhead, checkpointed
+  watcher that reuses the ingestion path
 - [ ] Reliability views, error trends and repeated-attempt heuristics
 - [ ] Search, export, diagnostics, reset and recovery controls
 - [ ] Performance work on a real dataset

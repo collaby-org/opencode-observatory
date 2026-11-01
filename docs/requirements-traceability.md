@@ -454,7 +454,7 @@ Phase 1 work itself satisfied the row.
 | ID | Requirement | Phase | Evidence | Status | Notes |
 |---|---|---|---|---|---|
 | PRD-OPEN-001 | Resolve the exact OpenCode version and schema in use | 1 | Audit | Complete | OpenCode 2.2.4; 30 tables; V2 plus a completed-migration legacy snapshot |
-| PRD-OPEN-002 | Identify the providers and models in use and the available billing evidence | 1 | Audit | Complete | 45 distinct model values are present; no authoritative invoice or billing source was found locally, so actual and provider-reported ledgers remain unknown |
+| PRD-OPEN-002 | Identify the providers and models in use and the available billing evidence | 1 | Audit | Complete | The read-only aggregate audit identified 6 providers, 30 provider/model pairs and 24 distinct model ids; every provider, model id and its session count is listed in `docs/phase-1-audit.md` section 6. No authoritative invoice or billing source was found locally, so actual and provider-reported ledgers remain unknown and Phase 2 re-discovers the identities at runtime |
 | PRD-OPEN-003 | Choose whether pricing defaults to current or historical rates | 1 | Audit plus ADR | Complete | Default to current rates today with a separately selectable historical-rate view; never overwrite the original calculation |
 | PRD-OPEN-004 | Decide how local models map to a comparable hosted model | 1 | Audit plus ADR | Complete | Mark local-model value not applicable or unknown until the user explicitly selects a comparable hosted model and rate card |
 | PRD-OPEN-005 | Decide whether AI summaries default to a local model or remain disabled until configured | 1 | Audit plus ADR | Complete | Remain disabled until a model is configured and the user requests processing |
